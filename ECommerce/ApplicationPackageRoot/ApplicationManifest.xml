@@ -1,20 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="ECommerceType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="ECommerceType" ApplicationTypeVersion="1.0.1" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
     <Parameter Name="ECommerce.API_InstanceCount" DefaultValue="-1" />
     <Parameter Name="ECommerce.ProductCatalog_MinReplicaSetSize" DefaultValue="3" />
     <Parameter Name="ECommerce.ProductCatalog_PartitionCount" DefaultValue="1" />
     <Parameter Name="ECommerce.ProductCatalog_TargetReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="UserActorServiceActorService_PartitionCount" DefaultValue="10" />
+    <Parameter Name="UserActorServiceActorService_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="UserActorServiceActorService_TargetReplicaSetSize" DefaultValue="3" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
        ServiceManifest.xml file. -->
   <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="ECommerce.APIPkg" ServiceManifestVersion="1.0.0" />
+    <ServiceManifestRef ServiceManifestName="UserActorServicePkg" ServiceManifestVersion="1.0.1" />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="ECommerce.APIPkg" ServiceManifestVersion="1.0.1" />
     <ConfigOverrides />
   </ServiceManifestImport>
   <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="ECommerce.ProductCatalogPkg" ServiceManifestVersion="1.0.0" />
+    <ServiceManifestRef ServiceManifestName="ECommerce.ProductCatalogPkg" ServiceManifestVersion="1.0.1" />
     <ConfigOverrides />
   </ServiceManifestImport>
   <DefaultServices>
@@ -31,6 +37,11 @@
     <Service Name="ECommerce.ProductCatalog" ServicePackageActivationMode="ExclusiveProcess">
       <StatefulService ServiceTypeName="ECommerce.ProductCatalogType" TargetReplicaSetSize="[ECommerce.ProductCatalog_TargetReplicaSetSize]" MinReplicaSetSize="[ECommerce.ProductCatalog_MinReplicaSetSize]">
         <UniformInt64Partition PartitionCount="[ECommerce.ProductCatalog_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      </StatefulService>
+    </Service>
+    <Service Name="UserActorServiceActorService" GeneratedIdRef="50977380-5e8c-4ac5-8adc-7c7636bc447e|Persisted">
+      <StatefulService ServiceTypeName="UserActorServiceActorServiceType" TargetReplicaSetSize="[UserActorServiceActorService_TargetReplicaSetSize]" MinReplicaSetSize="[UserActorServiceActorService_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[UserActorServiceActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
       </StatefulService>
     </Service>
   </DefaultServices>
