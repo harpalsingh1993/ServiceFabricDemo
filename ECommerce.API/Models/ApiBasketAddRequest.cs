@@ -11,8 +11,8 @@ namespace ECommerce.API.Models
         [JsonProperty("productId")]
         public string ProductId { get; set; }
 
-        [JsonProperty("qunatity")]
-        public int Qunatity { get; set; }
+        [JsonProperty("quantity")]
+        public int Quantity { get; set; }
 
     }
 }

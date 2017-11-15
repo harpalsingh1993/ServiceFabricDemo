@@ -39,7 +39,7 @@ namespace ECommerce.API.Controllers
         public async Task Add(string userId,[FromBody] ApiBasketAddRequest request)
         {
             IUserActorService userActor = GetActor(userId);
-            await userActor.AddToBasket(new Guid(request.ProductId),request.Qunatity);
+            await userActor.AddToBasket(new Guid(request.ProductId),request.Quantity);
 
         }
 
